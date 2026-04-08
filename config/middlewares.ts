@@ -1,7 +1,6 @@
 import type { Core } from "@strapi/strapi";
 
-const baseURL = process.env.API_BASE_URL;
-const config: Core.Config.Middlewares = [
+export default ({ env }: { env: any }): Core.Config.Middlewares => [
   "strapi::logger",
   "strapi::errors",
   {
@@ -11,9 +10,21 @@ const config: Core.Config.Middlewares = [
         useDefaults: true,
         directives: {
           "connect-src": ["'self'", "https:"],
-          // This allows your frontend to actually see the images served by the backend
-          "img-src": ["'self'", "data:", "blob:", "localhost:1337"],
-          "media-src": ["'self'", "data:", "blob:", "localhost:1337"],
+          // Updated to be more flexible for production images
+          "img-src": [
+            "'self'",
+            "data:",
+            "blob:",
+            "*.onrender.com",
+            "tefs-photobooth-cms.onrender.com",
+          ],
+          "media-src": [
+            "'self'",
+            "data:",
+            "blob:",
+            "*.onrender.com",
+            "tefs-photobooth-cms.onrender.com",
+          ],
           upgradeInsecureRequests: null,
         },
       },
@@ -22,8 +33,11 @@ const config: Core.Config.Middlewares = [
   {
     name: "strapi::cors",
     config: {
-      // Replace with your actual Vue app URL or ['*'] for testing
-      origin: ["http://localhost:5173", baseURL],
+      origin: [
+        "http://localhost:1337",
+        "https://tefs-photobooth-frontend.vercel.app",
+        env("API_BASE_URL", "https://tefs-photobooth-frontend.vercel.app"),
+      ],
       methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"],
       headers: ["Content-Type", "Authorization", "Origin", "Accept"],
       keepHeaderOnError: true,
@@ -38,7 +52,7 @@ const config: Core.Config.Middlewares = [
       jsonLimit: "256mb",
       textLimit: "256mb",
       formidable: {
-        maxFileSize: 200 * 1024 * 1024, // 200MB limit for bundled uploads
+        maxFileSize: 200 * 1024 * 1024,
       },
     },
   },
@@ -46,5 +60,3 @@ const config: Core.Config.Middlewares = [
   "strapi::favicon",
   "strapi::public",
 ];
-
-export default config;

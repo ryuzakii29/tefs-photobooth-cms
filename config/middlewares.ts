@@ -35,8 +35,9 @@ export default ({ env }: { env: any }): Core.Config.Middlewares => [
     config: {
       origin: [
         "http://localhost:1337",
-        "https://tefs-photobooth-frontend.vercel.app",
-        env("API_BASE_URL", "https://tefs-photobooth-frontend.vercel.app"),
+        "http://localhost:3000",
+        "https://tefs-photobooth.vercel.app",
+        env("API_BASE_URL", "https://tefs-photobooth.vercel.app"),
       ],
       methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"],
       headers: ["Content-Type", "Authorization", "Origin", "Accept"],

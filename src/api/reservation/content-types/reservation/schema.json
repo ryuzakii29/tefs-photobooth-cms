@@ -50,6 +50,9 @@
       "type": "string",
       "maxLength": 30,
       "unique": true
+    },
+    "address": {
+      "type": "text"
     }
   }
 }

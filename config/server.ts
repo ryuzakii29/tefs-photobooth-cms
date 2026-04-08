@@ -5,7 +5,7 @@ const config = ({
 }: Core.Config.Shared.ConfigParams): Core.Config.Server => ({
   host: env("HOST", "0.0.0.0"),
   port: env.int("PORT", 10000),
-  url: env("PUBLIC_URL", "DEV_URL"),
+  url: env("PUBLIC_URL", ""),
   proxy: true,
   app: {
     keys: env.array("APP_KEYS"),
